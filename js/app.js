@@ -7,9 +7,10 @@ function getPin() {
     return getPin();
   }
 }
+let generateCount = 0;
 function generatePin() {
   document.getElementById("input-pin").value = getPin();
-  let generateCount = 0;
+
   generateCount++;
   if (generateCount > 1) {
     document.getElementById("input-number").value = "";
@@ -39,19 +40,29 @@ function verifyPin() {
   const typedPin = document.getElementById("input-number").value;
   const verifySuccess = document.getElementById("verify-success");
   const verifyFail = document.getElementById("verify-fail");
+  const maxCount = document.getElementById("max-count");
   const tryText = document.getElementById("try-count");
   let tryCount = parseInt(tryText.innerText);
+  tryCount--;
   if (pin == typedPin) {
-    verifySuccess.style.display = "block";
-    verifyFail.style.display = "none";
+    if (tryCount >= 0) {
+      verifySuccess.style.display = "block";
+      verifyFail.style.display = "none";
+      maxCount.style.display = "none";
+    } else {
+      maxCount.style.display = "block";
+      verifySuccess.style.display = "none";
+      verifyFail.style.display = "none";
+    }
   } else {
-    verifySuccess.style.display = "none";
-    verifyFail.style.display = "block";
-    tryCount--;
     if (tryCount >= 0) {
       tryText.innerText = tryCount;
+      verifySuccess.style.display = "none";
+      maxCount.style.display = "none";
+      verifyFail.style.display = "block";
     } else {
-      alert("You have tried 3 times");
+      maxCount.style.display = "block";
+      verifyFail.style.display = "none";
     }
   }
 }
